@@ -62,8 +62,8 @@ def merge_positions(before_positions: LinkedList[int],
     before, after = before_positions.get_head(), after_positions.get_head()
 
     while before is not None and after is not None:
-        before, after = cast(Node[int], before), cast(Node[int],
-                                                      after)  # typecasting
+        # typecasting
+        before, after = cast(Node[int], before), cast(Node[int], after)
         if before.value == after.value - 1:
             result.append(after.value)
             before = before.next()
