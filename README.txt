@@ -69,6 +69,25 @@ We then implemented a threshold for the resultant list to limit the number of do
 Relevant feedback is used to supplement ranked retrieval, and will be described in the BONUS document.
 
 
+== Notable Engineering Features ==
+Indexing is implemented using parallel techniques. We reduced the time from XXX to XXX by parallelizing
+
+We tried different ways to index to process phrasal queries. The first method was to implement bitriword indexing since phrases can only be of a maximum size 3.
+We decided to use positional indexing in the end as the size of the bitriword dictionary was XXX while that of the positional index was XXX.
+
+
+
+
+
+== Breakdown of work ==
+A0164710M: Helped with initial indexing, worked on phrasal retrieval, ranked retrieval
+A0149787E:: Implemented and optimized indexing, testing, submission
+A0164178X: Implemented all bonus parts, ranked retrieval, submission
+A0167354Y: Implemented boolean retrieval, integrating components, testings
+
+
+
+
 == Files included with this submission ==
 
 
