@@ -1,12 +1,9 @@
-from typing import Tuple, List, Dict, BinaryIO, Union, cast
-
 from data_structures import LinkedList, TokenType
 from phrasal_retrieval import retrieve_phrase
 from search_helpers import load_postings_list
 
 
-def perform_and(operand_a: LinkedList[int],
-                operand_b: LinkedList[int]) -> LinkedList:
+def perform_and(operand_a, operand_b):
     """
     Returns all ids that are ids of operand a and operand b. Copied from HW2.
     """
@@ -29,10 +26,7 @@ def perform_and(operand_a: LinkedList[int],
     return result
 
 
-def perform_boolean_query(
-        tokens: List[Tuple[str, Union[List[str], str]]],
-        dictionary: Dict[str, Tuple[float, Tuple[int, int], Tuple[int, int]]],
-        postings_file: BinaryIO) -> LinkedList:
+def perform_boolean_query(tokens, dictionary, postings_file):
     """
     Returns a LinkedList of documents that satisfy a purely conjunctive boolean
     query.
@@ -46,7 +40,7 @@ def perform_boolean_query(
     :return: A LinkedList of document IDs that satisfy the boolean query.
     """
 
-    def get_idf(token: Tuple[str, Union[List[str], str]]) -> float:
+    def get_idf(token):
         """
         Helper function to get the IDF of a phrase/term.
 
@@ -57,7 +51,6 @@ def perform_boolean_query(
         """
         term_type, phrase = token
         if term_type == TokenType.PHRASE:
-            phrase = cast(List[str], phrase)
             # Returns the sum of the idfs of each term
             # (first item in the dictionary tuple)
             return sum(
@@ -65,11 +58,10 @@ def perform_boolean_query(
                     lambda term: dictionary[term][0]
                     if term in dictionary else 0, phrase))
         elif term_type == TokenType.NON_PHRASE:
-            term = cast(str, phrase)
+            term = phrase
             return dictionary[term][0] if term in dictionary else 0
 
-    def get_postings_list(term_type: str,
-                          phrase: Union[List[str], str]) -> LinkedList:
+    def get_postings_list(term_type, phrase):
         """
         Helper function to get a postings list length of a phrase/term.
         Returns empty LinkedList if phrase does not exist.
@@ -77,7 +69,7 @@ def perform_boolean_query(
         if term_type == TokenType.PHRASE:
             return retrieve_phrase(dictionary, postings_file, phrase)
         elif term_type == TokenType.NON_PHRASE:
-            term = cast(str, phrase)
+            term = phrase
             return load_postings_list(postings_file, dictionary, term)
 
     # Guard against empty tokens list
@@ -88,7 +80,7 @@ def perform_boolean_query(
     list.sort(tokens, key=get_idf, reverse=True)
 
     # Generate a list of Postings lists
-    resultant_list: LinkedList[int] = get_postings_list(*tokens[0])
+    resultant_list = get_postings_list(*tokens[0])
 
     # Successively use AND on the tokens' postings lists
     for token in tokens[1:]:

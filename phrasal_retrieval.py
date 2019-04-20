@@ -1,12 +1,8 @@
-from typing import Dict, Tuple, List, BinaryIO, cast
-from data_structures import LinkedList, Node
+from data_structures import LinkedList
 from search_helpers import load_positional_index
 
 
-def retrieve_phrase(
-        dictionary: Dict[str, Tuple[float, Tuple[int, int], Tuple[int, int]]],
-        postings_file: BinaryIO,
-        tokens: List[str]) -> LinkedList[Tuple[str, LinkedList[int]]]:
+def retrieve_phrase(dictionary, postings_file, tokens):
     """
     Returns a LinkedList of documents that contain a specific phrase.
 
@@ -29,9 +25,7 @@ def retrieve_phrase(
     return positional_index
 
 
-def merge_positional_indexes(before: LinkedList[Tuple[str, LinkedList[int]]],
-                             after: LinkedList[Tuple[str, LinkedList[int]]]
-                             ) -> LinkedList[Tuple[str, LinkedList[int]]]:
+def merge_positional_indexes(before, after):
     result = LinkedList()
     before, after = before.get_head(), after.get_head()
     while before is not None and after is not None:
@@ -56,14 +50,11 @@ def merge_positional_indexes(before: LinkedList[Tuple[str, LinkedList[int]]],
     return result
 
 
-def merge_positions(before_positions: LinkedList[int],
-                    after_positions: LinkedList[int]):
+def merge_positions(before_positions, after_positions):
     result = LinkedList()
     before, after = before_positions.get_head(), after_positions.get_head()
 
     while before is not None and after is not None:
-        # typecasting
-        before, after = cast(Node[int], before), cast(Node[int], after)
         if before.value == after.value - 1:
             result.append(after.value)
             before = before.next()

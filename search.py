@@ -5,7 +5,6 @@ Processes search queries
 import csv
 import getopt
 import sys
-from typing import Dict, Tuple, List, Union
 from itertools import chain
 
 from data_structures import TokenType, QueryType
@@ -14,7 +13,7 @@ from boolean_retrieval import perform_boolean_query
 from search_helpers import normalise, load_dictionaries
 
 
-def usage() -> None:
+def usage():
     """
     Prints the usage message.
     """
@@ -28,12 +27,9 @@ def usage() -> None:
 ####################
 
 
-def process_query(
-        dictionary: Dict[str, Tuple[float, Tuple[int, int], Tuple[int, int]]],
-        vector_lengths: Dict[str, float], postings_file_location: str,
-        file_of_queries_location: str,
-        document_vectors_dictionary: Dict[str, Tuple[int, int]],
-        file_of_output_location: str) -> None:
+def process_query(dictionary, vector_lengths, postings_file_location,
+                  file_of_queries_location, document_vectors_dictionary,
+                  file_of_output_location):
     """
     Process the query in the query file.
     """
@@ -64,9 +60,7 @@ def process_query(
         output_file.write(postings + "\n")
 
 
-def parse_query(
-        query: str
-) -> Tuple[QueryType, List[Tuple[TokenType, Union[List[str], str]]]]:
+def parse_query(query):
     """
     Parses query.
 
@@ -85,7 +79,7 @@ def parse_query(
     return QueryType.FREE_TEXT, [parse_token(token) for token in tokens]
 
 
-def parse_token(token: str) -> Tuple[TokenType, Union[List[str], str]]:
+def parse_token(token):
     """
     Parses the given token by normalising it.
     """
@@ -116,7 +110,7 @@ def parse_token(token: str) -> Tuple[TokenType, Union[List[str], str]]:
 #    output_file.write(postings + "\n")
 
 
-def main() -> None:
+def main():
     """
     The main function of this file.
     """

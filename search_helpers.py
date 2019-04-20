@@ -3,7 +3,6 @@ Contains helper methods for search.py
 """
 import pickle
 
-from typing import Dict, Tuple, BinaryIO
 from math import log
 from collections import Counter
 from functools import lru_cache
@@ -17,7 +16,7 @@ from data_structures import LinkedList
 #######################
 
 
-def get_weighted_tf(count: int, base: int = 10) -> float:
+def get_weighted_tf(count, base=10):
     """
     Calculates the weighted term frequency
     using the 'logarithm' scheme.
@@ -25,7 +24,7 @@ def get_weighted_tf(count: int, base: int = 10) -> float:
     return log(base * count, base)
 
 
-def get_weighted_tfs(counts: Dict[str, int]) -> Dict[str, float]:
+def get_weighted_tfs(counts):
     """
     Calculate the weighted term frequencies.
     """
@@ -33,7 +32,7 @@ def get_weighted_tfs(counts: Dict[str, int]) -> Dict[str, float]:
 
 
 @lru_cache(maxsize=None)
-def normalise(token: str) -> str:
+def normalise(token):
     """
     Returns a normalised token. Normalised tokens are cached for performance
     """
@@ -41,9 +40,7 @@ def normalise(token: str) -> str:
     return PorterStemmer().stem(token)
 
 
-def load_document_vector(doc_id: str, postings_file: BinaryIO,
-                         document_vector_dictionary: Dict[str, Tuple[int, int]]
-                         ) -> Dict[str, int]:
+def load_document_vector(doc_id, postings_file, document_vector_dictionary):
     """
     Loads the document vectors for the given doc_id from the postings file.
 
@@ -57,10 +54,7 @@ def load_document_vector(doc_id: str, postings_file: BinaryIO,
     return pickle.loads(pickled)
 
 
-def load_postings_list(
-        postings_file: BinaryIO,
-        dictionary: Dict[str, Tuple[float, Tuple[int, int], Tuple[int, int]]],
-        token: str) -> LinkedList[Tuple[str, float]]:
+def load_postings_list(postings_file, dictionary, token):
     """
     Loads postings list from postings file using the location provided
     by the dictionary.
@@ -75,10 +69,7 @@ def load_postings_list(
     return pickle.loads(pickled)
 
 
-def load_positional_index(
-        postings_file: BinaryIO,
-        dictionary: Dict[str, Tuple[float, Tuple[int, int], Tuple[int, int]]],
-        token: str) -> LinkedList[Tuple[str, LinkedList[int]]]:
+def load_positional_index(postings_file, dictionary, token):
     """
     Loads positional index from postings file using the location provided
     by the dictionary.
@@ -93,11 +84,7 @@ def load_positional_index(
     return pickle.loads(pickled)
 
 
-def load_dictionaries(
-        dictionary_file_location: str
-) -> Tuple[Dict[str, Tuple[float, Tuple[int, int], Tuple[int, int]]],
-           Dict[str, Tuple[int, int]], Dict[str, Tuple[int, int]],
-           Dict[str, float]]:
+def load_dictionaries(dictionary_file_location):
     """
     Loads dictionary from dictionary file location.
     Returns a tuple of (dictionary, document_vector_dictionary, vector_lengths)

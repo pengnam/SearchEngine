@@ -2,16 +2,13 @@
 Implementation of common data structures used.
 """
 from math import sqrt, trunc
-from typing import Optional, List, Iterator, Generic, TypeVar, Tuple
 from enum import Enum
 
 # Useless to add skip pointers if interval = 1 or 2
 SKIP_INTERVAL_THRESHOLD = 3
 
-T = TypeVar('T')
 
-
-class Node(Generic[T]):
+class Node:
     """
     Represents a node in the linked list.
     You can access the value through attribute `value`,
@@ -21,20 +18,20 @@ class Node(Generic[T]):
     skip node respectively.
     """
 
-    def __init__(self, index: int, linked_list: 'LinkedList[T]') -> None:
+    def __init__(self, index, linked_list):
         # pylint: disable=protected-access
         self.value = linked_list._data[index][0]
         self._index = index
         self._linked_list = linked_list
 
-    def next(self) -> Optional['Node[T]']:
+    def next(self):
         """
         Gets the node after this node, or `None` if there is none.
         """
         # pylint: disable=protected-access
         return self._linked_list._get_next(self._index)
 
-    def skip(self) -> Optional['Node[T]']:
+    def skip(self):
         """
         Gets the skip node of this node, or `None` if there is none.
         """
@@ -42,41 +39,41 @@ class Node(Generic[T]):
         return self._linked_list._get_skip(self._index)
 
 
-class LinkedList(Generic[T]):
+class LinkedList:
     """
     A linked list implementation with skip pointers,
     backed by python's list for performance.
     """
 
-    def __init__(self) -> None:
-        self._data: List[Tuple[T, Optional[int]]] = []
+    def __init__(self):
+        self._data = []
 
-    def __len__(self) -> int:
+    def __len__(self):
         return len(self._data)
 
-    def __bool__(self) -> bool:
+    def __bool__(self):
         return self.__len__() > 0
 
-    def __iter__(self) -> Iterator[T]:
+    def __iter__(self):
         for value, _ in self._data:
             yield value
 
-    def __str__(self) -> str:
+    def __str__(self):
         return " ".join(str(doc_id) for doc_id in self)
 
-    def append(self, value: T) -> None:
+    def append(self, value):
         """
         Adds a new value to the tail of this linked list.
         """
         self._data.append((value, None))
 
-    def extend(self, values: List[T]) -> None:
+    def extend(self, values):
         """
         Extends the linked list by appending all the items from the iterable.
         """
         self._data.extend((value, None) for value in values)
 
-    def get_head(self) -> Optional[Node[T]]:
+    def get_head(self):
         """
         Gets the head node of this linked list.
         """
@@ -84,7 +81,7 @@ class LinkedList(Generic[T]):
             return None
         return Node(0, self)
 
-    def build_skips(self) -> None:
+    def build_skips(self):
         """
         Builds the skip pointer in this linked list, whereby sqrt(n) skip
         pointers are placed evenly, n = length of the list.
@@ -104,12 +101,12 @@ class LinkedList(Generic[T]):
             self._data[prev] = (value, i)
             prev = i
 
-    def _get_next(self, index: int) -> Optional[Node[T]]:
+    def _get_next(self, index):
         if index >= len(self) - 1:
             return None
         return Node(index + 1, self)
 
-    def _get_skip(self, index: int) -> Optional[Node[T]]:
+    def _get_skip(self, index):
         _, skip = self._data[index]
         if skip is None:
             return None
