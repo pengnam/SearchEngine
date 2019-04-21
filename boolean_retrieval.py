@@ -10,6 +10,7 @@ def perform_and(operand_a, operand_b):
     result = LinkedList()
     operand_a, operand_b = operand_a.get_head(), operand_b.get_head()
     while operand_a is not None and operand_b is not None:
+        operand_a.value, operand_b.value = int(operand_a.value), int(operand_b.value)
         if operand_a.value == operand_b.value:
             result.append(operand_a.value)
             operand_a = operand_a.next()
