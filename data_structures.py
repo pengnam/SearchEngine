@@ -45,8 +45,8 @@ class LinkedList:
     backed by python's list for performance.
     """
 
-    def __init__(self, iterable=[]):
-        self._data = iterable
+    def __init__(self):
+        self._data = []
 
     def __len__(self):
         return len(self._data)
