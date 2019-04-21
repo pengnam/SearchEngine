@@ -6,6 +6,10 @@ I'm using Python Version <3.4> for this assignment.
 
 == General Notes about this assignment ==
 
+It would be important to read the write-up in the section about `Searching`,
+and to refer to the BONUS document for more information about query enhancements.
+
+
 Auxiliary Modules:
 1. Data Structures:
   We have a data structure module to hold all the important data structures, such
@@ -23,7 +27,7 @@ Auxiliary Modules:
 To run index.py, please install joblib by running `pip install joblib`
 
 
-This assignment contains the code for both:
+This assignment contains the code for both indexing and searching.
 
 1. Indexing
 We stored 4 different items in the index.
@@ -31,33 +35,34 @@ For all these dictionaries except the vector lengths dictionary, instead of
 storing the actual data in the dictionary, we stored the information that will
 allow us to retrieve the information from the posting list.
 
-A. Positional Index
-Content: Dictionary of tokens, where each token is mapped to a linkedlist of
-tuples, each consisting of document id and a linkedlist to positions of the
-token in that document.
-Type: Dict[str, LinkedList[Tuple[str, LinkedList[int]]]]
-Purpose: For phrasal queries
+  A. Positional Index
+  Content: Dictionary of tokens, where each token is mapped to a linkedlist of
+  tuples, each consisting of document id and a linkedlist to positions of the
+  token in that document.
+  Type: Dict[str, LinkedList[Tuple[str, LinkedList[int]]]]
+  Purpose: For phrasal queries
 
-B. TF-IDF Dictionary
-Content: Dictionary of tokens to the tf values for each document id.
-Type: Dict[str, LinkedList[Tuple[str, float]]]
-Purpose: Used for computing the tf-idf values
+  B. TF-IDF Dictionary
+  Content: Dictionary of tokens to the tf values for each document id.
+  Type: Dict[str, LinkedList[Tuple[str, float]]]
+  Purpose: Used for computing the tf-idf values
 
-C. Vector Lengths
-Content: Contains all the vector lengths for each token
-Type: Dict[str, float]
-Purpose: Used for computing ranking scores using cosine similarity.
+  C. Vector Lengths
+  Content: Contains all the vector lengths for each token
+  Type: Dict[str, float]
+  Purpose: Used for computing ranking scores using cosine similarity.
 
-D. Document vectors (for relevant query [bonus])
-Content: Dictionary of docID to sparse vector
-Type: Dict[str, Dict[str, int]]
-Purpose: For relevant query
+  D. Document vectors (for relevant query [bonus])
+  Content: Dictionary of docID to sparse vector
+  Type: Dict[str, Dict[str, int]]
+  Purpose: For relevant query
 
 
 2. Searching:
-Searching will be described in greater detail in BONUS document.
 We broke the searching into three parts: ranked retrieval, boolean retrieval
 (which includes phrasal matching), and relevant feedback.
+Query expansion and relevant feedback and their integration will be discussed in
+the BONUS document.
 
 In essence, the searching is done through the following method:
 1) Ranked retrieval is performed on the text to retrieve a ranked list of
@@ -71,8 +76,8 @@ Results are retrieved according to the following priorities:
 2. Having a ranked score past a certain threshold
 
 The resultant list contains documents that satisfy either of the two criteria
-above, and documents in list are ranked by the first priority before the second
-priority.
+above, and document IDs in this list are ranked by the first priority before the
+second priority.
 
 We then implemented a threshold for the resultant list to limit the number of
 documents returned.
@@ -94,9 +99,6 @@ and dictionary files using bitriword dictionary was more than 10 times larger
 than using positional index.
 
 
-
-
-
 == Breakdown of work ==
 A0164710M: Helped with initial indexing, worked on phrasal retrieval,
 ranked retrieval
@@ -105,10 +107,12 @@ A0164178X: Implemented all bonus parts, ranked retrieval, submission
 A0167354Y: Implemented boolean retrieval, integrating components, testings
 
 
-
-
 == Files included with this submission ==
-
+search.py
+index.py
+all documents specified in the auxilliary modules above
+dictionary.txt
+postings.txt
 
 == Statement of individual work ==
 
