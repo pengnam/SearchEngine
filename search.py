@@ -5,6 +5,7 @@ Processes search queries
 import csv
 import getopt
 import sys
+import itertools
 from itertools import chain
 
 from data_structures import TokenType, QueryType
@@ -39,7 +40,8 @@ def process_query(dictionary, vector_lengths, postings_file_location,
         query, *relevant_doc_ids = list(query_file)
         query_type, tokens = parse_query(query)
         relevant_doc_ids = [x.strip() for x in relevant_doc_ids]
-        query_phrase = " ".join(chain.from_iterable(x for _, x in tokens))
+        query_phrase = " ".join(itertools.chain.from_iterable(
+            [(x if token_type is TokenType.PHRASE else [x]) for token_type, x in tokens]))
         result = get_relevant_docs(query_phrase, dictionary, vector_lengths,
                                    relevant_doc_ids,
                                    document_vectors_dictionary, postings_file)
@@ -56,7 +58,7 @@ def process_query(dictionary, vector_lengths, postings_file_location,
                     relevant_non_boolean.append(doc_id)
             relevant_boolean.extend(relevant_non_boolean)
             result = relevant_boolean
-        postings = str(result)
+        postings = ' '.join(result)
         output_file.write(postings + "\n")
 
 

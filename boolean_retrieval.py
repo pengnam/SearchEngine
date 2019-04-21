@@ -70,7 +70,10 @@ def perform_boolean_query(tokens, dictionary, postings_file):
             return retrieve_phrase(dictionary, postings_file, phrase)
         elif term_type == TokenType.NON_PHRASE:
             term = phrase
-            return load_postings_list(postings_file, dictionary, term)
+            postings_list = load_postings_list(postings_file, dictionary, term)
+            result = LinkedList()
+            result.extend(x for x,_ in postings_list)
+            return result
 
     # Guard against empty tokens list
     if not tokens:

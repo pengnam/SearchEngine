@@ -21,8 +21,9 @@ def retrieve_phrase(dictionary, postings_file, tokens):
                                                       dictionary, token)
         positional_index = merge_positional_indexes(positional_index,
                                                     next_positional_index)
-
-    return positional_index
+    result = LinkedList()
+    result.extend(x for x,_ in positional_index)
+    return result
 
 
 def merge_positional_indexes(before, after):
