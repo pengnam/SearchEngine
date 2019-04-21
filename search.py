@@ -58,7 +58,7 @@ def process_query(dictionary, vector_lengths, postings_file_location,
                     relevant_non_boolean.append(doc_id)
             relevant_boolean.extend(relevant_non_boolean)
             result = relevant_boolean
-        postings = str(result)
+        postings = ' '.join(result)
         output_file.write(postings + "\n")
 
 
