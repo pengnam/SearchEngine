@@ -5,6 +5,7 @@ Processes search queries
 import csv
 import getopt
 import sys
+import itertools
 from itertools import chain
 
 from data_structures import TokenType, QueryType
