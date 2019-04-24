@@ -15,7 +15,7 @@ import os
 
 import nltk
 from nltk.stem.porter import PorterStemmer
-from joblib import Parallel, delayed
+# from joblib import Parallel, delayed
 
 from data_structures import LinkedList
 
@@ -131,9 +131,10 @@ def read_data_file(input_file):
     csv.field_size_limit(sys.maxsize)
     with open(input_file) as csv_file:
         reader = csv.reader(csv_file, delimiter=",")
-        return Parallel(
-            n_jobs=-1, verbose=10, backend="multiprocessing")(
-                delayed(parse_row)(row) for row in reader)
+        return [parse_row(row) for row in reader]
+        # return Parallel(
+        #     n_jobs=-1, verbose=10, backend="multiprocessing")(
+        #         delayed(parse_row)(row) for row in reader)
 
 
 def parse_row(row):
